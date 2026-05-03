@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 
 type NotesClientProps = {
   tag?: string;
@@ -13,8 +14,6 @@ import { fetchNotes } from '@/lib/api';
 
 import Errorbox from '@/components/Errorbox/Errorbox';
 import Loader from '@/components/Loader/Loader';
-import Modal from '@/components/Modal/Modal';
-import NoteForm from '@/components/NoteForm/NoteForm';
 import NoteList from '@/components/NoteList/NoteList';
 import Pagination from '@/components/Pagination/Pagination';
 import SearchBox from '@/components/SearchBox/SearchBox';
@@ -22,9 +21,6 @@ import css from '../../../page.module.css';
 
 export default function NotesClient({ tag }: NotesClientProps) {
   const [search, setSearch] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const modalOpen = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   const [page, setPage] = useState(1);
 
@@ -61,9 +57,9 @@ export default function NotesClient({ tag }: NotesClientProps) {
               onPageChange={setPage}
             />
           )}
-          <button className={css.button} onClick={modalOpen}>
+          <Link href="/notes/action/create" className={css.button}>
             Create note +
-          </button>
+          </Link>
         </header>
 
         {isLoading && <Loader />}
@@ -72,12 +68,6 @@ export default function NotesClient({ tag }: NotesClientProps) {
         <Toaster position="top-center" reverseOrder={false} />
         {data && data.notes.length > 0 && !isLoading && (
           <NoteList notes={data.notes} />
-        )}
-
-        {isModalOpen && (
-          <Modal onEnd={closeModal}>
-            <NoteForm onClose={closeModal} />
-          </Modal>
         )}
       </div>
     </>

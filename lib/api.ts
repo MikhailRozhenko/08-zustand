@@ -1,7 +1,7 @@
 import { Note } from '@/types/note';
 import axios from 'axios';
 
-interface CreateNotePayload {
+export interface CreateNotePayload {
   title: string;
   content: string;
   tag: string;
